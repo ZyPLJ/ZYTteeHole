@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZYTreeHole", "ZYTreeHole\ZYTreeHole.csproj", "{906143B4-D215-45F4-B5AC-467AEB074DE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZYTreeHole_Models", "ZYTreeHole_Models\ZYTreeHole_Models.csproj", "{9A232BE7-3C02-4957-BFF8-9272F1F12362}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZYTreeHole_Services", "ZYTreeHole_Services\ZYTreeHole_Services.csproj", "{D7201B69-8AA7-4944-B6C4-2A92A71EE81D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{906143B4-D215-45F4-B5AC-467AEB074DE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{906143B4-D215-45F4-B5AC-467AEB074DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{906143B4-D215-45F4-B5AC-467AEB074DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{906143B4-D215-45F4-B5AC-467AEB074DE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A232BE7-3C02-4957-BFF8-9272F1F12362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A232BE7-3C02-4957-BFF8-9272F1F12362}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A232BE7-3C02-4957-BFF8-9272F1F12362}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A232BE7-3C02-4957-BFF8-9272F1F12362}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7201B69-8AA7-4944-B6C4-2A92A71EE81D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7201B69-8AA7-4944-B6C4-2A92A71EE81D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7201B69-8AA7-4944-B6C4-2A92A71EE81D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7201B69-8AA7-4944-B6C4-2A92A71EE81D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

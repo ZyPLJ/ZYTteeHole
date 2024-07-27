@@ -1,0 +1,9 @@
+﻿/ZYTreeHole/obj/**
+/ZYTreeHole_Models/obj/**
+/ZYTreeHole_Services/obj/**
+/.idea/**
+/bin/**
+/obj/**
+/Properties/**
+/packages/**
+/TestResults/**
