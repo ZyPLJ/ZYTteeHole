@@ -1,5 +1,7 @@
 ﻿/ZYTreeHole/obj/**
 /ZYTreeHole_Models/obj/**
+/ZYTreeHole_Models/Migrations/**
+/ZYTreeHole_Models/bin/**
 /ZYTreeHole_Services/obj/**
 /.idea/**
 /bin/**
