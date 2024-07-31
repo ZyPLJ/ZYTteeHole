@@ -8,6 +8,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ZYTreeHole_Models\ZYTreeHole_Models.csproj" />
+      <ProjectReference Include="..\ZYTreeHole_Share\ZYTreeHole_Share.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CodeLab.Share" Version="1.4.1" />
     </ItemGroup>
 
 </Project>

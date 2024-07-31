@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using ZYTreeHole_Models;
+using ZYTreeHole_Services.Services;
+using ZYTreeHole_Services.Services.User;
+
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -16,6 +17,10 @@ builder.Services.AddDbContext<MyDbContext>(opt =>
     string connStr = @"Server=DESKTOP-U64RN7B\SQLSERVER;Database=TreeHole;User Id=Sa;Password=zyplj1314999;Encrypt=True;TrustServerCertificate=True;";
     opt.UseSqlServer(connStr);
 });
+// Add services to the container.
+builder.Services.AddTransient<ICommentsService, CommentsService>();
+builder.Services.AddTransient<IUsersService, UsersService>();
+builder.Services.AddSingleton<TempFilterService>();
 
 var app = builder.Build();
 
@@ -33,3 +38,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

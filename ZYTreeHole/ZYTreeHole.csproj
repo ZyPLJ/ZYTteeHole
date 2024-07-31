@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <InvariantGlobalization>true</InvariantGlobalization>
+        <InvariantGlobalization>false</InvariantGlobalization>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,6 +14,10 @@
     <ItemGroup>
       <ProjectReference Include="..\ZYTreeHole_Models\ZYTreeHole_Models.csproj" />
       <ProjectReference Include="..\ZYTreeHole_Services\ZYTreeHole_Services.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="words.json" />
     </ItemGroup>
 
 </Project>
