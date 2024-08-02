@@ -24,7 +24,13 @@ public class CommentController : ControllerBase
         _usersService = usersService;
         _filter = filter;
     }
-    
+
+    [HttpGet]
+    public async Task<ApiResponsePaged<ZyComments>> GetComments([FromQuery] QueryParameters queryParameters)
+    {
+        var (data,meta) = await _commentService.GetCommentsAsync(queryParameters);
+        return new ApiResponsePaged<ZyComments>(data,meta);
+    }
     [HttpPost]
     public async Task<ApiResponse<ZyComments>> CreateComment(CommentDto commentDto)
     {

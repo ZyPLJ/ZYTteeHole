@@ -1,7 +1,10 @@
-﻿using CodeLab.Share.ViewModels.Response;
+﻿using CodeLab.Share.ViewModels;
+using CodeLab.Share.ViewModels.Response;
+using Microsoft.EntityFrameworkCore;
 using ZYTreeHole_Models;
 using ZYTreeHole_Models.Entity;
 using ZYTreeHole_Models.ViewModels.Requests;
+using ZYTreeHole_Share;
 
 namespace ZYTreeHole_Services.Services;
 
@@ -45,5 +48,25 @@ public class CommentsService: ICommentsService
         comment.Reason = reason;
         await _myDbContext.SaveChangesAsync();
         return comment;
+    }
+
+    public async Task<(List<ZyComments>,PaginationMetadata)> GetCommentsAsync(QueryParameters queryParameters)
+    {
+        var query = _myDbContext.comments.AsQueryable();
+        if (!string.IsNullOrEmpty(queryParameters.Search))
+        {
+            query = query.Where(c => c.Content.Contains(queryParameters.Search));
+        }
+        var data = await query.OrderByDescending(c => c.CreateTime)
+            .ApplyPaging(queryParameters.Page, queryParameters.PageSize)
+           .ToListAsync();
+
+        var pagination = new PaginationMetadata()
+        {
+            PageNumber = queryParameters.Page,
+            PageSize = queryParameters.PageSize,
+            TotalItemCount = await query.CountAsync()
+        };
+        return (data, pagination);
     }
 }

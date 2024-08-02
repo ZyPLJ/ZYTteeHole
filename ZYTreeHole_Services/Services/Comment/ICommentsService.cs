@@ -1,4 +1,5 @@
-﻿using ZYTreeHole_Models.Entity;
+﻿using CodeLab.Share.ViewModels;
+using ZYTreeHole_Models.Entity;
 using ZYTreeHole_Models.ViewModels.Requests;
 
 namespace ZYTreeHole_Services.Services;
@@ -25,4 +26,5 @@ public interface ICommentsService
        /// <param name="reason"></param>
        /// <returns></returns>
        Task<ZyComments> Reject(ZyComments comment, string reason);
+       Task<(List<ZyComments>,PaginationMetadata)> GetCommentsAsync(QueryParameters queryParameters);
 }
