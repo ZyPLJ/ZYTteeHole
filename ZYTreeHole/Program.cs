@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ZYTreeHole_Models;
 using ZYTreeHole_Services.Services;
 using ZYTreeHole_Services.Services.User;
+using ZYTreeHole.Filter;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddOptions();
+
 
 
 builder.Services.AddDbContext<MyDbContext>(opt =>
@@ -21,6 +24,8 @@ builder.Services.AddDbContext<MyDbContext>(opt =>
 builder.Services.AddTransient<ICommentsService, CommentsService>();
 builder.Services.AddTransient<IUsersService, UsersService>();
 builder.Services.AddSingleton<TempFilterService>();
+//注册服务
+builder.Services.AddRateLimit(builder.Configuration);
 
 var app = builder.Build();
 
@@ -30,6 +35,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+//添加中间件
+app.UseStaticFiles(new StaticFileOptions
+{
+    ServeUnknownFileTypes = true
+});
+app.UseRateLimit();
+
 
 app.UseHttpsRedirection();
 

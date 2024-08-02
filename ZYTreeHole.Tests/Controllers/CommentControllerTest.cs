@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Builder;
@@ -31,14 +32,18 @@ public class CommentControllerTest:IClassFixture<WebApplicationFactory<Program>>
             IsNeedAudit = true,  
             Visible = true  
         };  
-        string url = "/Comment";  
-        // 使用HttpClient发送POST请求  
-        var response = await client.PostAsJsonAsync(url, commentDto);  
-        // 确保请求成功  
-        response.EnsureSuccessStatusCode();  
-        // 如果需要，验证响应内容类型（这取决于你的API如何配置）  
-        // 假设你的API返回JSON，但不一定包含特定的版本信息  
-        Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString());  
+        string url = "/Comment";
+        for (int i = 0; i < 6; i++)
+        {
+            // 使用HttpClient发送POST请求  
+            var response = await client.PostAsJsonAsync(url, commentDto);  
+            // 确保请求成功  
+            response.EnsureSuccessStatusCode();  
+            // 如果需要，验证响应内容类型（这取决于你的API如何配置）  
+            // 假设你的API返回JSON，但不一定包含特定的版本信息  
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString()); 
+        }
   
         // 如果需要，还可以验证响应体内容  
         // 例如，如果API返回了创建的CommentDto，你可以这样验证  
