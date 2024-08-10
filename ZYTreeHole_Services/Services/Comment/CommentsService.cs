@@ -35,7 +35,7 @@ public class CommentsService: ICommentsService
 
     public async Task<ZyComments> Accept(ZyComments comment, string? reason = null)
     {
-        var data = _myDbContext.comments.Find(comment.Id);
+        var data = await _myDbContext.comments.FindAsync(comment.Id);
         data.Visible = true;
         data.IsNeedAudit = true;
         data.Reason = reason;
@@ -43,10 +43,10 @@ public class CommentsService: ICommentsService
         return comment;
     }
     public async Task<ZyComments> Reject(ZyComments comment, string reason) {
-        var data = _myDbContext.comments.Find(comment.Id);
-        comment.Visible = false;
-        comment.IsNeedAudit = false;
-        comment.Reason = reason;
+        var data = await _myDbContext.comments.FindAsync(comment.Id);
+        data.Visible = false;
+        data.IsNeedAudit = false;
+        data.Reason = reason;
         await _myDbContext.SaveChangesAsync();
         return comment;
     }
@@ -71,9 +71,10 @@ public class CommentsService: ICommentsService
         return (data, pagination);
     }
 
-    public Task<List<CommentRes>> GetAllCommentsAsync()
+    public async Task<List<CommentRes>> GetAllCommentsAsync()
     {
-        var data = _myDbContext.comments
+        var data =await _myDbContext.comments
+            .Where(c => c.Visible)
             .Select(c => new CommentRes
             {
                 Content = c.Content,
@@ -81,5 +82,16 @@ public class CommentsService: ICommentsService
             })
             .OrderByDescending(c => c.CreateTime).ToListAsync();
         return data;
+    }
+
+    public async Task<ZyComments?> GetByIdAsync(int id)
+    {
+        return await _myDbContext.comments.FindAsync(id);
+    }
+
+    public async Task<bool> DeleteCommentAsync(ZyComments comment)
+    {
+        _myDbContext.comments.Remove(comment);
+        return await _myDbContext.SaveChangesAsync() > 0;
     }
 }

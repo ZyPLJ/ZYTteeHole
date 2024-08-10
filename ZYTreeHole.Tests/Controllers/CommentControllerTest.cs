@@ -49,5 +49,49 @@ public class CommentControllerTest:IClassFixture<WebApplicationFactory<Program>>
         // 例如，如果API返回了创建的CommentDto，你可以这样验证  
         //var createdComment = await response.Content.ReadFromJsonAsync<CommentDto>();  
         // // 然后添加对createdComment的断言  
-    }  
+    }
+
+    [Fact]
+    public async Task Delete_Comment_ReturnsSuccess()
+    {
+        var client = _factory.CreateClient();
+        string url = "/Comment/44";
+        //发起DELETE请求，删除id为44的评论
+        var response = await client.DeleteAsync(url);
+        // 确保请求成功  
+        response.EnsureSuccessStatusCode();  
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString()); 
+    }
+
+    [Fact]
+    public async Task Accept_Comment_ReturnsSuccess()
+    {
+        var client = _factory.CreateClient();
+        CommentAcceptDto commentAcceptDto = new CommentAcceptDto()
+        {
+            Reason = "测试通过"
+        };
+        string url = "/Comment/1/Accept";
+        //发起POST请求，接受id为1的评论
+        var response = await client.PostAsJsonAsync(url, commentAcceptDto);  
+        response.EnsureSuccessStatusCode();  
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString()); 
+    }
+
+    [Fact]
+    public async Task Reject_Comment_ReturnsSuccess()
+    {
+        var client = _factory.CreateClient();
+        CommentRejectDto commentRejectDto = new CommentRejectDto()
+        {
+            Reason = "测试拒绝"
+        };
+        string url = "/Comment/22/Reject";
+        var response = await client.PostAsJsonAsync(url, commentRejectDto);  
+        response.EnsureSuccessStatusCode();  
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType?.ToString()); 
+    }
 }

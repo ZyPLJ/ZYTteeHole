@@ -33,7 +33,7 @@ builder.Services.AddCors(options =>
         opt => opt.AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .WithExposedHeaders("http://localhost:5173/"));
+            .WithExposedHeaders("http://localhost:5173/","http://1.1.1.171:5173/","http://192.168.1.54:5173/"));
 });
 
 var app = builder.Build();
