@@ -20,3 +20,4 @@ ZY树洞是一个基于.NET Core开发的简单的评论系统，主要用于大
 - Vue.js
 
 # 项目截图
+![1.png](https://www.pljzy.top/media/photofraphy/1dd68d7f25886dac.jpg)
