@@ -19,4 +19,5 @@ public class ZyComments
     /// <para>如果验证不通过的话，可能会附上原因</para>
     /// </summary>
     public string? Reason { get; set; }
+    public ZyUsers User { get; set; }
 }

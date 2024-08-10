@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ZYTreeHole_Models;
 using ZYTreeHole_Models.Entity;
 using ZYTreeHole_Models.ViewModels.Requests;
+using ZYTreeHole_Models.ViewModels.Responses;
 using ZYTreeHole_Share;
 
 namespace ZYTreeHole_Services.Services;
@@ -68,5 +69,17 @@ public class CommentsService: ICommentsService
             TotalItemCount = await query.CountAsync()
         };
         return (data, pagination);
+    }
+
+    public Task<List<CommentRes>> GetAllCommentsAsync()
+    {
+        var data = _myDbContext.comments
+            .Select(c => new CommentRes
+            {
+                Content = c.Content,
+                CreateTime = c.CreateTime,
+            })
+            .OrderByDescending(c => c.CreateTime).ToListAsync();
+        return data;
     }
 }

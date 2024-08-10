@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ZYTreeHole_Models.Entity;
 using ZYTreeHole_Models.ViewModels.Requests;
+using ZYTreeHole_Models.ViewModels.Responses;
 using ZYTreeHole_Services.Services;
 using ZYTreeHole_Services.Services.User;
 
@@ -25,6 +26,13 @@ public class CommentController : ControllerBase
         _filter = filter;
     }
 
+    [HttpGet]
+    [Route("GetAll")]
+    public async Task<ApiResponse<List<CommentRes>>> GetAll()
+    {
+        var data = await _commentService.GetAllCommentsAsync();
+        return new ApiResponse<List<CommentRes>>(data);
+    }
     [HttpGet]
     public async Task<ApiResponsePaged<ZyComments>> GetComments([FromQuery] QueryParameters queryParameters)
     {

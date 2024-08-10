@@ -27,6 +27,15 @@ builder.Services.AddSingleton<TempFilterService>();
 //注册服务
 builder.Services.AddRateLimit(builder.Configuration);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        opt => opt.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .WithExposedHeaders("http://localhost:5173/"));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -35,6 +44,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("CorsPolicy");
 //添加中间件
 app.UseStaticFiles(new StaticFileOptions
 {
