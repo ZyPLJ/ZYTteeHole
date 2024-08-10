@@ -47,7 +47,7 @@ public class CommentControllerTest:IClassFixture<WebApplicationFactory<Program>>
   
         // 如果需要，还可以验证响应体内容  
         // 例如，如果API返回了创建的CommentDto，你可以这样验证  
-        //var createdComment = await response.Content.ReadFromJsonAsync<CommentDto>();  
+        //var createdComment = await response.Content.ReadFromJsonAsync<CommentDto>();  ·
         // // 然后添加对createdComment的断言  
     }
 
