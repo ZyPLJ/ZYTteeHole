@@ -12,14 +12,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddOptions();
+builder.WebHost.UseUrls("http://*:44323");
 
 
+builder.Services.AddDbContext<MyDbContext>(options =>  
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));  
 
-builder.Services.AddDbContext<MyDbContext>(opt =>
-{
-    string connStr = @"Server=DESKTOP-U64RN7B\SQLSERVER;Database=TreeHole;User Id=Sa;Password=zyplj1314999;Encrypt=True;TrustServerCertificate=True;";
-    opt.UseSqlServer(connStr);
-});
 // Add services to the container.
 builder.Services.AddTransient<ICommentsService, CommentsService>();
 builder.Services.AddTransient<IUsersService, UsersService>();
@@ -33,7 +31,7 @@ builder.Services.AddCors(options =>
         opt => opt.AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .WithExposedHeaders("http://localhost:5173/","http://1.1.1.171:5173/","http://192.168.1.54:5173/"));
+            .WithExposedHeaders("http://localhost:5173/"));
 });
 
 var app = builder.Build();
