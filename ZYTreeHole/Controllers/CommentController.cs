@@ -42,14 +42,8 @@ public class CommentController : ControllerBase
     [HttpPost]
     public async Task<ApiResponse<ZyComments>> CreateComment(CommentDto commentDto)
     {
-        //查询用户信息
-        UserDto userDto = new UserDto()
-        {
-            Email = commentDto.Email ?? "",
-            IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString().Split(":")?.Last(),
-        };
-        var user = await _usersService.GetUserOrAddAsync(userDto);
-        commentDto.UserId = user.Id;
+        //查询用户信息 ToDo: 后续需要改成获取用户ip地址
+        commentDto.UserId = 1;
         
         string msg = string.Empty;
         //检查是否有敏感词
