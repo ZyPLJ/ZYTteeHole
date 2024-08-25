@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using ZYTreeHole_Models;
+using ZYTreeHole_Models.ViewModels.Config;
 using ZYTreeHole_Services.Services;
 using ZYTreeHole_Services.Services.User;
+using ZYTreeHole.Extensions;
 using ZYTreeHole.Filter;
 
 
@@ -24,6 +26,10 @@ builder.Services.AddTransient<IUsersService, UsersService>();
 builder.Services.AddSingleton<TempFilterService>();
 //注册服务
 builder.Services.AddRateLimit(builder.Configuration);
+//注册jwt配置
+builder.Services.AddAuth(builder.Configuration);
+builder.Services.Configure<Auth>(builder.Configuration.GetSection(nameof(Auth)));
+builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddCors(options =>
 {
@@ -50,9 +56,10 @@ app.UseStaticFiles(new StaticFileOptions
 });
 app.UseRateLimit();
 
-
 app.UseHttpsRedirection();
 
+app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

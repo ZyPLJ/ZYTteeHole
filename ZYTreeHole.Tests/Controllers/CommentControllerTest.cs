@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Newtonsoft.Json.Linq;
 using Xunit;
+using ZYTreeHole_Models.ViewModels.Auth;
 using ZYTreeHole_Models.ViewModels.Requests;
 using ZYTreeHole.Controllers;
 
@@ -32,8 +34,8 @@ public class CommentControllerTest:IClassFixture<WebApplicationFactory<Program>>
             IsNeedAudit = true,  
             Visible = true  
         };  
-        string url = "/Comment";
-        for (int i = 0; i < 6; i++)
+        string url = "Comment";
+        for (int i = 0; i < 5; i++)
         {
             // 使用HttpClient发送POST请求  
             var response = await client.PostAsJsonAsync(url, commentDto);  
@@ -55,8 +57,21 @@ public class CommentControllerTest:IClassFixture<WebApplicationFactory<Program>>
     public async Task Delete_Comment_ReturnsSuccess()
     {
         var client = _factory.CreateClient();
-        string url = "/Comment/44";
-        //发起DELETE请求，删除id为44的评论
+        LoginUser loginUser = new LoginUser()
+        {
+            UserName = "admin",
+            Password = "admin"
+        };
+        //请求登录接口
+        var loginRequest = await client.PostAsJsonAsync("/Api/Auth",loginUser);
+        loginRequest.EnsureSuccessStatusCode();
+        //获取登录令牌
+        var token = await loginRequest.Content.ReadAsStringAsync();
+        JObject json = JObject.Parse(token);
+        //设置请求头
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + json["data"]["token"]);
+        string url = "/Api/Comment/3";
+        //发起DELETE请求，删除id为2的评论
         var response = await client.DeleteAsync(url);
         // 确保请求成功  
         response.EnsureSuccessStatusCode();  

@@ -10,6 +10,7 @@
     <ItemGroup>
         <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
         <PackageReference Include="AspNetCoreRateLimit.Redis" Version="2.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 

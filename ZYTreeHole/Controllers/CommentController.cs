@@ -14,15 +14,11 @@ public class CommentController : ControllerBase
 {
     private readonly ILogger<CommentController> _logger;
     private readonly ICommentsService _commentService;
-    private readonly IUsersService _usersService;
     private readonly TempFilterService _filter;
-
-    public CommentController(ILogger<CommentController> logger, ICommentsService commentService,
-        IUsersService usersService,TempFilterService filter)
+    public CommentController(ILogger<CommentController> logger, ICommentsService commentService, TempFilterService filter)
     {
         _logger = logger;
         _commentService = commentService;
-        _usersService = usersService;
         _filter = filter;
     }
 
@@ -32,12 +28,6 @@ public class CommentController : ControllerBase
     {
         var data = await _commentService.GetAllCommentsAsync();
         return new ApiResponse<List<CommentRes>>(data);
-    }
-    [HttpGet]
-    public async Task<ApiResponsePaged<ZyComments>> GetComments([FromQuery] QueryParameters queryParameters)
-    {
-        var (data,meta) = await _commentService.GetCommentsAsync(queryParameters);
-        return new ApiResponsePaged<ZyComments>(data,meta);
     }
     [HttpPost]
     public async Task<ApiResponse<ZyComments>> CreateComment(CommentDto commentDto)
@@ -61,34 +51,5 @@ public class CommentController : ControllerBase
         return new ApiResponse<ZyComments>(comment) {
             Message = msg
         };
-    }
-    /// <summary>
-    /// 审核通过
-    /// </summary>
-    [HttpPost("{id:int}/[action]")]
-    public async Task<ApiResponse<ZyComments>> Accept([FromRoute] int id, [FromBody] CommentAcceptDto dto) {
-        var item = await _commentService.GetByIdAsync(id);
-        if (item == null) return ApiResponse.NotFound();
-        return new ApiResponse<ZyComments>(await _commentService.Accept(item, dto.Reason));
-    }
-
-    /// <summary>
-    /// 审核拒绝
-    /// </summary>
-    [HttpPost("{id:int}/[action]")]
-    public async Task<ApiResponse<ZyComments>> Reject([FromRoute] int id, [FromBody] CommentRejectDto dto) {
-        var item = await _commentService.GetByIdAsync(id);
-        if (item == null) return ApiResponse.NotFound();
-        return new ApiResponse<ZyComments>(await _commentService.Reject(item, dto.Reason));
-    }
-    
-    [HttpDelete("{id:int}")]
-    public async Task<ApiResponse> DeleteComment(int id)
-    {
-        var comment = await _commentService.GetByIdAsync(id);
-        if (comment == null) return ApiResponse.NotFound();
-        var result = await _commentService.DeleteCommentAsync(comment);
-        if (!result) return new ApiResponse(){StatusCode = 500,Message = "删除失败"};
-        return new ApiResponse(){Message = "删除成功"};
     }
 }
