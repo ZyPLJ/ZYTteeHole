@@ -36,11 +36,13 @@ public class CommentController : ControllerBase
         commentDto.UserId = 1;
         
         string msg = string.Empty;
+        int code = 200;
         //检查是否有敏感词
         if (_filter.CheckBadWord(commentDto.Content)) {
             commentDto.IsNeedAudit = true;
             commentDto.Visible = false;
             msg = "小管家发现您可能使用了不良用语，该评论将在审核通过后展示~";
+            code = 400;
         }
         else {
             commentDto.Visible = true;
@@ -49,7 +51,8 @@ public class CommentController : ControllerBase
         var comment = await _commentService.CreateCommentAsync(commentDto);
         _logger.LogInformation("Create comment success, commentId: {0}", comment.Id);
         return new ApiResponse<ZyComments>(comment) {
-            Message = msg
+            Message = msg,
+            StatusCode = code
         };
     }
 }
