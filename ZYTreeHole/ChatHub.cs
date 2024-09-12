@@ -28,6 +28,8 @@ public class ChatHub:Hub
     {
         // 每次客户端断开连接时减少计数
         Interlocked.Decrement(ref _connectionCount);
+        // 广播连接数量变化  
+        _ = BroadcastConnectionCount();
         return base.OnDisconnectedAsync(exception);
     }
  
@@ -35,5 +37,9 @@ public class ChatHub:Hub
     {
         // 获取当前连接数量
         return _connectionCount;
+    }
+    public async Task BroadcastConnectionCount()
+    {
+        await Clients.All.SendAsync("ConnectionCountChanged", _connectionCount);
     }
 }
