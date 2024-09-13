@@ -43,12 +43,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", opt =>
     {
-        opt.WithOrigins("http://localhost:5173") // 指定允许的来源
+        opt.WithOrigins("http://localhost:5173", "http://tree.pljzy.top") // 指定允许的来源
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials(); // 允许使用凭据（如cookies）
+            .AllowCredentials() // 允许使用凭据（如cookies）
+            .WithExposedHeaders("http://localhost:5173/", "http://tree.pljzy.top/");
     });
 });
+
 
 var app = builder.Build();
 
