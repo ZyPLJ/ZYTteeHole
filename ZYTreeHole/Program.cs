@@ -3,6 +3,7 @@ using Microsoft.OpenApi.Models;
 using ZYTreeHole_Models;
 using ZYTreeHole_Models.ViewModels.Config;
 using ZYTreeHole_Services.Services;
+using ZYTreeHole_Services.Services.LikeRecord;
 using ZYTreeHole_Services.Services.User;
 using ZYTreeHole.Extensions;
 using ZYTreeHole.Filter;
@@ -30,6 +31,7 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 // Add services to the container.
 builder.Services.AddTransient<ICommentsService, CommentsService>();
 builder.Services.AddTransient<IUsersService, UsersService>();
+builder.Services.AddTransient<ILikeRecordService, LikeRecordService>();
 builder.Services.AddSingleton<TempFilterService>();
 builder.Services.AddSingleton<ChatHub>();
 //注册服务

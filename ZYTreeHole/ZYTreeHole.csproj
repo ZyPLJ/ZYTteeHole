@@ -23,7 +23,7 @@
 
     <ItemGroup>
       <None Include="words.json" />
-      <None Update="app.db">
+      <None Update="app1.db">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="Dockerfile">

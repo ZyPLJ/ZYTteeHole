@@ -51,14 +51,28 @@ public class CommentsService: ICommentsService
         return comment;
     }
 
-    public async Task<(List<ZyComments>,PaginationMetadata)> GetCommentsAsync(QueryParameters queryParameters)
+    public async Task<(List<CommentApiRes>,PaginationMetadata)> GetCommentsAsync(QueryParameters queryParameters)
     {
         var query = _myDbContext.comments.AsQueryable();
         if (!string.IsNullOrEmpty(queryParameters.Search))
         {
             query = query.Where(c => c.Content.Contains(queryParameters.Search));
         }
-        var data = await query.OrderByDescending(c => c.CreateTime)
+        //关联点赞表
+        var data = await query
+            .OrderByDescending(c => c.CreateTime)
+            .Select(c => new CommentApiRes
+            {
+                Id = c.Id,
+                Content = c.Content,
+                CreateTime = c.CreateTime,
+                UserId = c.UserId,
+                ParentId = c.ParentId,
+                Visible = c.Visible,
+                IsNeedAudit = c.IsNeedAudit,
+                Reason = c.Reason,
+                LikeCount = _myDbContext.likeRecords.Count(lr => lr.CommentId == c.Id) 
+            })
             .ApplyPaging(queryParameters.Page, queryParameters.PageSize)
            .ToListAsync();
 
@@ -77,6 +91,7 @@ public class CommentsService: ICommentsService
             .Where(c => c.Visible)
             .Select(c => new CommentRes
             {
+                Id = c.Id,
                 Content = c.Content,
                 CreateTime = c.CreateTime,
             })

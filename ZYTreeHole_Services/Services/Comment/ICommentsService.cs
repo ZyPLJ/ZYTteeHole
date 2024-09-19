@@ -27,7 +27,7 @@ public interface ICommentsService
        /// <param name="reason"></param>
        /// <returns></returns>
        Task<ZyComments> Reject(ZyComments comment, string reason);
-       Task<(List<ZyComments>,PaginationMetadata)> GetCommentsAsync(QueryParameters queryParameters);
+       Task<(List<CommentApiRes>,PaginationMetadata)> GetCommentsAsync(QueryParameters queryParameters);
        Task<List<CommentRes>> GetAllCommentsAsync();
        Task<ZyComments?> GetByIdAsync(int id);
        Task<bool> DeleteCommentAsync(ZyComments comment);

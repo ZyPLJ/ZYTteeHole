@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZYTreeHole_Models.Entity;
 using ZYTreeHole_Models.ViewModels.Requests;
+using ZYTreeHole_Models.ViewModels.Responses;
 using ZYTreeHole_Services.Services;
 
 namespace ZYTreeHole.Controllers.API;
@@ -18,10 +19,10 @@ public class CommentController : ControllerBase
         _commentService = commentService;
     }
     [HttpGet]
-    public async Task<ApiResponsePaged<ZyComments>> GetComments([FromQuery] QueryParameters queryParameters)
+    public async Task<ApiResponsePaged<CommentApiRes>> GetComments([FromQuery] QueryParameters queryParameters)
     {
         var (data,meta) = await _commentService.GetCommentsAsync(queryParameters);
-        return new ApiResponsePaged<ZyComments>(data,meta);
+        return new ApiResponsePaged<CommentApiRes>(data,meta);
     }
     /// <summary>
     /// 审核通过
