@@ -31,4 +31,5 @@ public interface ICommentsService
        Task<List<CommentRes>> GetAllCommentsAsync();
        Task<ZyComments?> GetByIdAsync(int id);
        Task<bool> DeleteCommentAsync(ZyComments comment);
+       Task<List<CommentRes>> GetRankingCommentsAsync(QueryParameters? queryParameters);
 }

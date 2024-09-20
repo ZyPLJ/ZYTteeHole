@@ -29,8 +29,15 @@ public class CommentController : ControllerBase
         var data = await _commentService.GetAllCommentsAsync();
         return new ApiResponse<List<CommentRes>>(data);
     }
+    [HttpGet]
+    [Route("[action]")]
+    public async Task<ApiResponse<List<CommentRes>>> GetRanking([FromQuery]QueryParameters? queryParameters)
+    {
+        var data = await _commentService.GetRankingCommentsAsync(queryParameters);
+        return new ApiResponse<List<CommentRes>>(data);
+    }
     [HttpPost]
-    public async Task<ApiResponse<ZyComments>> CreateComment(CommentDto commentDto)
+    public async Task<ApiResponse<ZyComments>> CreateComment([FromBody]CommentDto commentDto)
     {
         //查询用户信息 ToDo: 后续需要改成获取用户ip地址
         commentDto.UserId = 1;

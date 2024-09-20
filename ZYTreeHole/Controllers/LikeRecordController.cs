@@ -18,7 +18,7 @@ public class LikeRecordController : ControllerBase
 
     // GET: 获取点赞数据
     [HttpGet]
-    public async Task<ApiResponse<List<RecordsRes>>> Get(QueryParameters? queryParameters)
+    public async Task<ApiResponse<List<RecordsRes>>> Get([FromQuery] QueryParameters? queryParameters)
     {
         var records = await _likeRecordService.GetRecordsAsync(queryParameters);
         return new ApiResponse<List<RecordsRes>>(records)

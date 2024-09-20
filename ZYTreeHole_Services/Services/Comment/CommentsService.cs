@@ -109,4 +109,20 @@ public class CommentsService: ICommentsService
         _myDbContext.comments.Remove(comment);
         return await _myDbContext.SaveChangesAsync() > 0;
     }
+
+    public async Task<List<CommentRes>> GetRankingCommentsAsync(QueryParameters? queryParameters)
+    {
+        var data = await _myDbContext.comments
+            .OrderByDescending(c => c.CreateTime)
+            .Select(c => new CommentRes
+            {
+                Id = c.Id,
+                Content = c.Content,
+                CreateTime = c.CreateTime,
+                LikeCount = _myDbContext.likeRecords.Count(lr => lr.CommentId == c.Id) 
+            })
+            .OrderByDescending(c => c.LikeCount)
+            .ToListAsync();
+        return data;
+    }
 }
