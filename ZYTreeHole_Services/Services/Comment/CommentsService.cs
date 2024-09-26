@@ -113,6 +113,7 @@ public class CommentsService: ICommentsService
     public async Task<List<CommentRes>> GetRankingCommentsAsync(QueryParameters? queryParameters)
     {
         var data = await _myDbContext.comments
+            .Where(c => c.Visible)
             .OrderByDescending(c => c.CreateTime)
             .Select(c => new CommentRes
             {
