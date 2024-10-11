@@ -8,13 +8,14 @@ namespace ZYTreeHole_Services.Services;
 public class ChatHub:Hub
 {
     private static int _connectionCount;
-    public async Task SendComment(string content)  
+    public async Task SendComment(int id,string content)  
     {  
         ZyComments comment = new ZyComments
         {
+            Id = id,
             Content = content
         };
-        // 然后，广播评论给所有连接的客户端  
+        // 广播评论给所有连接的客户端  
         await Clients.All.SendAsync("ReceiveComment", comment);
     }  
     public override Task OnConnectedAsync()
@@ -41,5 +42,17 @@ public class ChatHub:Hub
     public async Task BroadcastConnectionCount()
     {
         await Clients.All.SendAsync("ConnectionCountChanged", _connectionCount);
+    }
+    //广播最新一条评论的时间
+    public async Task BroadcastLatestCommentTime(int id,DateTime latestCommentTime)
+    {
+        var message = new
+        {
+            Id = id,
+            LatestCommentTime = latestCommentTime
+        };
+
+        // 向所有连接的客户端广播消息
+        await Clients.All.SendAsync("LatestCommentTimeChanged", message);
     }
 }
