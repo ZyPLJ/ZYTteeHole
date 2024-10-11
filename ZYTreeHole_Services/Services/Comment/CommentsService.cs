@@ -126,4 +126,16 @@ public class CommentsService: ICommentsService
             .ToListAsync();
         return data;
     }
+
+    public async Task<List<ZyComments>> GetCommentsByIdsAsync(List<int> ids)
+    {
+        var data = await _myDbContext.comments.Where(c => ids.Contains(c.Id)).ToListAsync();
+        return data;
+    }
+
+    public async Task<bool> DeleteCommentsAsync(List<ZyComments> comments)
+    {
+        _myDbContext.comments.RemoveRange(comments);
+        return await _myDbContext.SaveChangesAsync() > 0;
+    }
 }

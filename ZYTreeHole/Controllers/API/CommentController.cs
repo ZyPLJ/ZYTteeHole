@@ -54,4 +54,16 @@ public class CommentController : ControllerBase
         if (!result) return new ApiResponse(){StatusCode = 500,Message = "删除失败"};
         return new ApiResponse(){Message = "删除成功"};
     }
+    [Authorize]
+    [HttpDelete]
+    public async Task<ApiResponse> DeleteComments([FromBody]List<int> ids)
+    {
+        if(ids == null || ids.Count == 0) return new ApiResponse(){StatusCode = 400,Message = "参数错误"};
+        var comments = await _commentService.GetCommentsByIdsAsync(ids);
+        if(comments == null || comments.Count == 0) return new ApiResponse(){StatusCode = 404,Message = "评论不存在"};
+        if(comments.Count!= ids.Count) return new ApiResponse(){StatusCode = 400,Message = "参数错误"};
+        var result = await _commentService.DeleteCommentsAsync(comments);
+        if (!result) return new ApiResponse(){StatusCode = 500,Message = "删除失败"};
+        return new ApiResponse(){Message = "删除成功"};
+    }
 }
